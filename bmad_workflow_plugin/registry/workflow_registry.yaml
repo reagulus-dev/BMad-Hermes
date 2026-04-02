@@ -1,0 +1,522 @@
+registry_version: "0.1.0"
+registry_id: "bmad_workflow_registry"
+description: >
+  Workflow registry for the BMad/Hermes plugin. Defines all available workflows,
+  their phases, status transitions, skill mappings, and routing rules. The
+  WorkflowRouter reads this registry to determine the next workflow. Adding a
+  new plugin workflow requires only adding an entry here.
+
+# ---------------------------------------------------------------------------
+# Global defaults
+# ---------------------------------------------------------------------------
+global_defaults:
+  default_phase: "4-implementation"
+  unsupported_transition_policy: "block"
+  unknown_workflow_policy: "warn"
+
+# ---------------------------------------------------------------------------
+# Workflow registry — one entry per workflow.
+#
+# Fields:
+#   workflow_id     : unique identifier used in RoutingDecision.next_workflow_id
+#   aliases         : alternative names (e.g. "bmad-dev-story" vs "ds")
+#   display_name    : human-readable name
+#   phase           : "1-analysis" | "2-planning" | "3-solutioning" | "4-implementation" | "anytime"
+#   status_triggers : story statuses that can trigger this workflow
+#   allowed_from    : workflow_ids that can precede this one (None = any)
+#   recommended_skill: the Hermes skill to invoke for this workflow
+#   required        : whether this workflow is a required gate
+#   description     : one-line summary
+#   long_description: detailed description (optional)
+#   outputs         : what this workflow produces (optional)
+#   after           : skill dependencies that should ideally complete first
+#   before          : skills that typically follow this one
+# ---------------------------------------------------------------------------
+
+workflows:
+
+  # ---- Phase 1: Analysis ----------------------------------------------------
+  bmad-brainstorming:
+    display_name: "Brainstorm Project"
+    phase: "1-analysis"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-brainstorming"
+    required: false
+    description: "Expert guided facilitation through a single or multiple brainstorming techniques."
+    outputs: ["brainstorming session"]
+    after: []
+    before: ["bmad-product-brief", "bmad-prfaq"]
+
+  bmad-market-research:
+    display_name: "Market Research"
+    phase: "1-analysis"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-market-research"
+    required: false
+    description: "Market analysis, competitive landscape, customer needs and trends."
+    outputs: ["research documents"]
+    after: []
+    before: ["bmad-product-brief", "bmad-prfaq"]
+
+  bmad-domain-research:
+    display_name: "Domain Research"
+    phase: "1-analysis"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-domain-research"
+    required: false
+    description: "Industry domain deep dive, subject matter expertise and terminology."
+    outputs: ["research documents"]
+    after: []
+    before: ["bmad-product-brief", "bmad-prfaq"]
+
+  bmad-technical-research:
+    display_name: "Technical Research"
+    phase: "1-analysis"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-technical-research"
+    required: false
+    description: "Technical feasibility, architecture options and implementation approaches."
+    outputs: ["research documents"]
+    after: []
+    before: ["bmad-product-brief", "bmad-prfaq"]
+
+  bmad-product-brief:
+    display_name: "Create Brief"
+    phase: "1-analysis"
+    status_triggers: []
+    allowed_from: ["bmad-brainstorming", "bmad-market-research", "bmad-domain-research", "bmad-technical-research"]
+    recommended_skill: "bmad-product-brief"
+    required: false
+    description: "A gentler approach than PRFAQ when you already have a concept and nothing will sway you."
+    outputs: ["product brief"]
+    after: []
+    before: ["bmad-create-prd"]
+
+  bmad-prfaq:
+    display_name: "PRFAQ Challenge"
+    phase: "1-analysis"
+    status_triggers: []
+    allowed_from: ["bmad-brainstorming", "bmad-market-research", "bmad-domain-research", "bmad-technical-research"]
+    recommended_skill: "bmad-prfaq"
+    required: false
+    description: "Working Backwards guided experience to forge and stress-test your product concept."
+    outputs: ["prfaq document"]
+    after: []
+    before: ["bmad-create-prd"]
+
+  # ---- Phase 2: Planning ----------------------------------------------------
+  bmad-create-prd:
+    display_name: "Create PRD"
+    phase: "2-planning"
+    status_triggers: []
+    allowed_from: ["bmad-product-brief", "bmad-prfaq", "bmad-brainstorming"]
+    recommended_skill: "bmad-create-prd"
+    required: true
+    description: "Expert led facilitation to produce your Product Requirements Document."
+    outputs: ["prd"]
+    after: []
+    before: ["bmad-validate-prd", "bmad-edit-prd"]
+
+  bmad-validate-prd:
+    display_name: "Validate PRD"
+    phase: "2-planning"
+    status_triggers: []
+    allowed_from: ["bmad-create-prd", "bmad-edit-prd"]
+    recommended_skill: "bmad-validate-prd"
+    required: false
+    description: "Validate PRD completeness and quality before proceeding."
+    outputs: ["prd validation report"]
+    after: ["bmad-create-prd"]
+    before: ["bmad-create-ux-design", "bmad-create-architecture"]
+
+  bmad-edit-prd:
+    display_name: "Edit PRD"
+    phase: "2-planning"
+    status_triggers: []
+    allowed_from: ["bmad-validate-prd"]
+    recommended_skill: "bmad-edit-prd"
+    required: false
+    description: "Update an existing PRD based on validation feedback."
+    outputs: ["updated prd"]
+    after: ["bmad-validate-prd"]
+    before: ["bmad-validate-prd"]
+
+  bmad-create-ux-design:
+    display_name: "Create UX Design"
+    phase: "2-planning"
+    status_triggers: []
+    allowed_from: ["bmad-create-prd", "bmad-validate-prd"]
+    recommended_skill: "bmad-create-ux-design"
+    required: false
+    description: "Guidance through realizing the plan for your UX. Strongly recommended if a UI is a primary piece."
+    outputs: ["ux design"]
+    after: ["bmad-create-prd"]
+    before: ["bmad-create-architecture"]
+
+  # ---- Phase 3: Solutioning -------------------------------------------------
+  bmad-create-architecture:
+    display_name: "Create Architecture"
+    phase: "3-solutioning"
+    status_triggers: []
+    allowed_from: ["bmad-create-prd", "bmad-validate-prd", "bmad-edit-prd"]
+    recommended_skill: "bmad-create-architecture"
+    required: true
+    description: "Guided workflow to document technical decisions."
+    outputs: ["architecture"]
+    after: []
+    before: ["bmad-create-epics-and-stories"]
+
+  bmad-create-epics-and-stories:
+    display_name: "Create Epics and Stories"
+    phase: "3-solutioning"
+    status_triggers: []
+    allowed_from: ["bmad-create-architecture"]
+    recommended_skill: "bmad-create-epics-and-stories"
+    required: true
+    description: "Break down architecture into epics and stories for sprint planning."
+    outputs: ["epics and stories"]
+    after: ["bmad-create-architecture"]
+    before: ["bmad-check-implementation-readiness"]
+
+  bmad-check-implementation-readiness:
+    display_name: "Check Implementation Readiness"
+    phase: "3-solutioning"
+    status_triggers: []
+    allowed_from: ["bmad-create-epics-and-stories"]
+    recommended_skill: "bmad-check-implementation-readiness"
+    required: true
+    description: "Ensure PRD, UX, Architecture and Epics/Stories are aligned before sprint begins."
+    outputs: ["readiness report"]
+    after: ["bmad-create-epics-and-stories"]
+    before: ["bmad-sprint-planning"]
+
+  # ---- Phase 4: Implementation ----------------------------------------------
+  bmad-sprint-planning:
+    aliases: ["sprint-planning"]
+    display_name: "Sprint Planning"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: ["bmad-check-implementation-readiness", "bmad-retrospective",
+                   "bmad-state-check", "bmad-project-init", "bmad-state-migration"]
+    recommended_skill: "bmad-sprint-planning"
+    required: false
+    description: "Initialize or update sprint-status.yaml to sequence the implementation cycle."
+    outputs: ["sprint status"]
+    after: []
+    before: ["bmad-sprint-status", "bmad-create-story"]
+
+  bmad-sprint-status:
+    display_name: "Sprint Status"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: ["bmad-sprint-planning"]
+    recommended_skill: "bmad-sprint-status"
+    required: false
+    description: "Summarize sprint status and route to the next workflow. Can be run anytime."
+    outputs: []
+    after: ["bmad-sprint-planning"]
+    before: []
+
+  # Alice plugin — Phase 4 story cycle (mirrors BMad's story cycle)
+  bmad-project-init:
+    aliases: ["project-init"]
+    display_name: "Project Init"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-project-init"
+    required: false
+    description: "Initialize project _bmad/ structure and state.json."
+    outputs: ["_bmad/state.json"]
+    after: []
+    before: ["bmad-sprint-planning"]
+
+  bmad-state-migration:
+    aliases: ["state-migration"]
+    display_name: "BMad State Migration"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-state-migration"
+    required: false
+    description: "Migrate legacy-only BMad state to normalized _bmad/ structure."
+    outputs: ["_bmad/state.json"]
+    after: []
+    before: ["bmad-sprint-planning"]
+
+  bmad-state-check:
+    aliases: ["state-check"]
+    display_name: "State Check"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-state-check"
+    required: false
+    description: "Inspect and diagnose current _bmad/ state for inconsistencies."
+    outputs: []
+    after: []
+    before: []
+
+
+  bmad-create-story:
+    aliases: ["create-story"]
+    display_name: "Create Story"
+    phase: "4-implementation"
+    status_triggers: ["backlog"]
+    allowed_from: ["bmad-sprint-planning"]
+    recommended_skill: "bmad-create-story"
+    required: false
+    description: "Create a story artifact from an epic entry. Sets story status to ready-for-dev."
+    outputs: ["story artifact"]
+    after: []
+    before: ["bmad-dev-story"]
+
+  bmad-dev-story:
+    aliases: ["dev-story"]
+    display_name: "Dev Story"
+    phase: "4-implementation"
+    status_triggers: ["ready-for-dev", "in-progress"]
+    allowed_from: ["bmad-create-story", "bmad-code-review", "bmad-correct-course"]
+    recommended_skill: "bmad-dev-story"
+    required: false
+    description: "Execute story implementation tasks and tests. Cycles back to itself if fixes needed."
+    outputs: []
+    after: []
+    before: ["bmad-code-review"]
+
+  bmad-code-review:
+    aliases: ["code-review"]
+    display_name: "Code Review"
+    phase: "4-implementation"
+    status_triggers: ["review"]
+    allowed_from: ["bmad-dev-story"]
+    recommended_skill: "bmad-code-review"
+    required: false
+    description: "Review implementation. Routes back to dev-story if issues found, or to qa-gate if passed."
+    outputs: ["review_record"]
+    after: []
+    before: ["bmad-qa-gate", "bmad-dev-story"]
+
+  bmad-correct-course-impl:
+    aliases: ["correct-course-impl"]
+    display_name: "Correct Course (Implementation)"
+    phase: "4-implementation"
+    status_triggers: ["blocked"]
+    allowed_from: ["bmad-dev-story", "bmad-code-review"]
+    recommended_skill: "bmad-correct-course"
+    required: false
+    description: "Navigate significant mid-implementation changes. Triggered when a story is blocked."
+    outputs: ["change proposal"]
+    after: []
+    before: []
+
+  bmad-qa-gate:
+    aliases: ["qa-gate"]
+    display_name: "QA Gate"
+    phase: "4-implementation"
+    status_triggers: ["review"]
+    allowed_from: ["bmad-code-review"]
+    recommended_skill: "bmad-qa-gate"
+    required: false
+    description: "Run QA gate on a story. Produces a qa_record artifact."
+    outputs: ["qa_record"]
+    after: []
+    before: ["bmad-retrospective"]
+
+  bmad-checkpoint-preview:
+    display_name: "Checkpoint Preview"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: ["bmad-dev-story", "bmad-code-review"]
+    recommended_skill: "bmad-checkpoint-preview"
+    required: false
+    description: "Guided walkthrough of a change from purpose and context into details. For human review."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-qa-generate-e2e-tests:
+    display_name: "QA Automation Test"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: ["bmad-dev-story"]
+    recommended_skill: "bmad-qa-generate-e2e-tests"
+    required: false
+    description: "Generate automated API and E2E tests for implemented code. NOT for code review."
+    outputs: ["test suite"]
+    after: []
+    before: []
+
+  bmad-retrospective:
+    aliases: ["retrospective"]
+    display_name: "Retrospective"
+    phase: "4-implementation"
+    status_triggers: ["done"]
+    allowed_from: ["bmad-qa-gate", "bmad-code-review"]
+    recommended_skill: "bmad-retrospective"
+    required: false
+    description: "Optional at epic end: review completed work, capture lessons learned."
+    outputs: ["bmad-retrospective"]
+    after: []
+    before: ["bmad-sprint-planning"]
+
+  # ---- Anytime / Cross-phase -----------------------------------------------
+  bmad-quick-dev:
+    display_name: "Quick Dev"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-quick-dev"
+    required: false
+    description: "Unified intent-in-code-out workflow: clarify, plan, implement, review and present."
+    outputs: ["spec", "project implementation"]
+    after: []
+    before: []
+
+  bmad-correct-course:
+    display_name: "Correct Course (BMad)"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-correct-course"
+    required: false
+    description: "Navigate significant changes. May recommend start over, update PRD, redo architecture, sprint planning or correct epics/stories."
+    outputs: ["change proposal"]
+    after: []
+    before: []
+
+  bmad-document-project:
+    display_name: "Document Project"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-document-project"
+    required: false
+    description: "Analyze an existing project to produce useful documentation."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-generate-project-context:
+    display_name: "Generate Project Context"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-generate-project-context"
+    required: false
+    description: "Scan existing codebase to generate a lean LLM-optimized project-context.md. Essential for brownfield projects."
+    outputs: ["project context"]
+    after: []
+    before: []
+
+  bmad-agent-tech-writer:
+    display_name: "Agent Tech Writer"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-agent-tech-writer"
+    required: false
+    description: "Multi-turn agent for writing, validating and explaining documents and diagrams."
+    outputs: ["document", "mermaid diagram"]
+    after: []
+    before: []
+
+  bmad-party-mode:
+    display_name: "Party Mode"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-party-mode"
+    required: false
+    description: "Orchestrate multi-agent discussions when you need multiple perspectives or want agents to collaborate."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-help:
+    display_name: "BMad Help"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-help"
+    required: false
+    description: "Answer BMad questions or recommend the next skill(s) to use based on current state."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-index-docs:
+    display_name: "Index Docs"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-index-docs"
+    required: false
+    description: "Use when LLM needs to understand available docs without loading everything."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-editorial-review-prose:
+    display_name: "Editorial Review - Prose"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-editorial-review-prose"
+    required: false
+    description: "Polish written content after drafting."
+    outputs: ["three-column markdown table with suggested fixes"]
+    after: []
+    before: []
+
+  bmad-editorial-review-structure:
+    display_name: "Editorial Review - Structure"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-editorial-review-structure"
+    required: false
+    description: "Improve structural coherence of documents produced from multiple subprocesses."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-review-adversarial-general:
+    display_name: "Adversarial Review"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-review-adversarial-general"
+    required: false
+    description: "Quality assurance before finalizing deliverables. Code Review in other modules runs this automatically."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-review-edge-case-hunter:
+    display_name: "Edge Case Hunter Review"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-review-edge-case-hunter"
+    required: false
+    description: "Orthogonal coverage review — method-driven not attitude-driven. Use alongside adversarial review."
+    outputs: []
+    after: []
+    before: []
+
+  bmad-distillator:
+    display_name: "Distillator"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-distillator"
+    required: false
+    description: "Produce token-efficient distillates that preserve all information for downstream LLM consumption."
+    outputs: ["distillate markdown file(s)"]
+    after: []
+    before: []

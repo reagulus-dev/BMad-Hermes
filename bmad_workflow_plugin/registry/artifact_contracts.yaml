@@ -1,0 +1,464 @@
+registry_version: "0.3.0"
+registry_id: "bmad_artifact_contracts"
+description: >
+  Schema-ready artifact contract registry for the Alice/BMad Hermes plugin.
+  Covers all four phases: analysis (1), planning (2), solutioning (3), and
+  implementation (4). Each artifact type defines its format, path resolution
+  rules, required/optional sections, field constraints, and workflow
+  permissions.
+
+global_defaults:
+  canonical_state_naming: "snake_case"
+  default_path_precedence:
+    - "preferred"
+    - "legacy_compatible"
+  unsupported_operation_policy: "reject"
+  missing_optional_section_policy: "allow"
+  unknown_section_policy: "warn"
+  duplicate_required_field_policy: "reject"
+
+artifact_types:
+
+  # ---------------------------------------------------------------------------
+  # Phase 1 — Analysis
+  # ---------------------------------------------------------------------------
+
+  brainstorming_session:
+    contract_version: "1.0.0"
+    display_name: "Brainstorming Session"
+    phase: "1-analysis"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/planning/brainstorming/{session_name}.md"
+      legacy_compatible:
+        - "_bmad-output/planning-artifacts/brainstorming/{session_name}.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/brainstorming-session.md"
+    field_definitions:
+      status:
+        allowed_values: ["open", "in_progress", "complete"]
+    section_definitions:
+      required:
+        session_config: { heading: "## Session Config", section_id: "session_config" }
+        ideas: { heading: "## Ideas", section_id: "ideas" }
+      optional:
+        techniques_used: { heading: "## Techniques Used", section_id: "techniques_used" }
+        key_insights: { heading: "## Key Insights", section_id: "key_insights" }
+        next_steps: { heading: "## Next Steps", section_id: "next_steps" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-brainstorming:
+        may_rewrite_entire_artifact: true
+
+  product_brief:
+    contract_version: "1.0.0"
+    display_name: "Product Brief"
+    phase: "1-analysis"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/planning/briefs/{project_name}/brief.md"
+      legacy_compatible:
+        - "_bmad-output/planning-artifacts/briefs/{project_name}/brief.md"
+        - "_bmad-output/planning-artifacts/product-brief-{project_name}.md"
+        - "_bmad-output/planning-artifacts/product-brief-{project_name}-{date}.md"
+        - "_bmad-output/planning-artifacts/product-brief.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/product-brief.md"
+    field_definitions:
+      status:
+        allowed_values: ["draft", "review", "approved"]
+    section_definitions:
+      required:
+        executive_summary: { heading: "## Executive Summary", section_id: "executive_summary" }
+        problem: { heading: "## The Problem", section_id: "problem" }
+        solution: { heading: "## The Solution", section_id: "solution" }
+        who_this_serves: { heading: "## Who This Serves", section_id: "who_this_serves" }
+        success_criteria: { heading: "## Success Criteria", section_id: "success_criteria" }
+      optional:
+        differentiators: { heading: "## What Makes This Different", section_id: "differentiators" }
+        scope: { heading: "## Scope", section_id: "scope" }
+        vision: { heading: "## Vision", section_id: "vision" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-product-brief:
+        may_rewrite_entire_artifact: true
+
+  prfaq:
+    contract_version: "1.0.0"
+    display_name: "PRFAQ"
+    phase: "1-analysis"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/planning/prfaqs/{project_name}/prfaq.md"
+      legacy_compatible:
+        - "_bmad-output/planning-artifacts/prfaqs/{project_name}/prfaq.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/prfaq.md"
+    field_definitions:
+      status:
+        allowed_values: ["draft", "challenge_complete", "approved"]
+    section_definitions:
+      required:
+        headline: { heading: "# {Headline}", section_id: "headline" }
+        press_release: { heading: "## Press Release", section_id: "press_release" }
+        customer_faq: { heading: "## Customer FAQ", section_id: "customer_faq" }
+        internal_faq: { heading: "## Internal FAQ", section_id: "internal_faq" }
+        verdict: { heading: "## The Verdict", section_id: "verdict" }
+      optional:
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-prfaq:
+        may_rewrite_entire_artifact: true
+
+  # ---------------------------------------------------------------------------
+  # Phase 2 — Planning
+  # ---------------------------------------------------------------------------
+
+  prd:
+    contract_version: "1.0.0"
+    display_name: "Product Requirements Document"
+    phase: "2-planning"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/planning/prds/{project_name}/prd.md"
+      legacy_compatible:
+        - "_bmad-output/planning-artifacts/prds/{project_name}/prd.md"
+        - "_bmad-output/planning-artifacts/prd.md"
+        - "_bmad-output/planning-artifacts/prd-{project_name}.md"
+        - "_bmad-output/planning-artifacts/prd-v{version}.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/prd.md"
+    field_definitions:
+      status:
+        allowed_values: ["draft", "in_review", "approved"]
+    section_definitions:
+      required:
+        overview: { heading: "## Overview", section_id: "overview" }
+        user_journeys: { heading: "## User Journeys", section_id: "user_journeys" }
+        functional_requirements: { heading: "## Functional Requirements", section_id: "functional_requirements" }
+      optional:
+        executive_summary: { heading: "## Executive Summary", section_id: "executive_summary" }
+        success_metrics: { heading: "## Success Metrics", section_id: "success_metrics" }
+        non_functional_requirements: { heading: "## Non-Functional Requirements", section_id: "non_functional_requirements" }
+        domain_model: { heading: "## Domain Model", section_id: "domain_model" }
+        scope: { heading: "## Scope / Out of Scope", section_id: "scope" }
+        dependencies: { heading: "## Dependencies", section_id: "dependencies" }
+        open_issues: { heading: "## Open Issues", section_id: "open_issues" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-create-prd:
+        may_rewrite_entire_artifact: true
+      bmad-edit-prd:
+        may_rewrite_entire_artifact: false
+
+  prd_validation_report:
+    contract_version: "1.0.0"
+    display_name: "PRD Validation Report"
+    phase: "2-planning"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/planning/prds/{project_name}/prd-validation.md"
+      legacy_compatible:
+        - "_bmad-output/planning-artifacts/prds/{project_name}/prd-validation.md"
+        - "_bmad-output/planning-artifacts/prd-validation-report.md"
+        - "_bmad-output/planning-artifacts/prd-validation-report-{project_name}.md"
+        - "_bmad-output/planning-artifacts/prd-validation-report-v{version}.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/prd-validation-report.md"
+    field_definitions:
+      status:
+        allowed_values: ["pass", "fail", "in_progress"]
+      validation_type:
+        allowed_values: ["full", "density", "brief_coverage", "measurability", "traceability", "domain_compliance"]
+    section_definitions:
+      required:
+        validation_summary: { heading: "## Validation Summary", section_id: "validation_summary" }
+        findings: { heading: "## Findings", section_id: "findings" }
+        recommendations: { heading: "## Recommendations", section_id: "recommendations" }
+      optional:
+        detailed_results: { heading: "## Detailed Results", section_id: "detailed_results" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-validate-prd:
+        may_rewrite_entire_artifact: true
+
+  ux_design:
+    contract_version: "1.0.0"
+    display_name: "UX Design"
+    phase: "2-planning"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/planning/ux/{project_name}/ux-design.md"
+      legacy_compatible:
+        - "_bmad-output/planning-artifacts/ux/{project_name}/ux-design.md"
+        - "_bmad-output/planning-artifacts/ux-design-specification.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/ux-design.md"
+    field_definitions:
+      status:
+        allowed_values: ["draft", "review", "approved"]
+    section_definitions:
+      required:
+        core_experience: { heading: "## Core Experience", section_id: "core_experience" }
+        user_journeys: { heading: "## User Journeys", section_id: "user_journeys" }
+        design_directions: { heading: "## Design Directions", section_id: "design_directions" }
+      optional:
+        emotional_response: { heading: "## Emotional Response", section_id: "emotional_response" }
+        design_system: { heading: "## Design System", section_id: "design_system" }
+        ux_patterns: { heading: "## UX Patterns", section_id: "ux_patterns" }
+        responsive_accessibility: { heading: "## Responsive & Accessibility", section_id: "responsive_accessibility" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-create-ux-design:
+        may_rewrite_entire_artifact: true
+
+  # ---------------------------------------------------------------------------
+  # Phase 3 — Solutioning
+  # ---------------------------------------------------------------------------
+
+  architecture:
+    contract_version: "1.0.0"
+    display_name: "Architecture Decision Document"
+    phase: "3-solutioning"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/solutioning/architecture/{project_name}/architecture.md"
+      legacy_compatible:
+        - "_bmad-output/solutioning-artifacts/architecture/{project_name}/architecture.md"
+        - "_bmad-output/planning-artifacts/architecture.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/architecture.md"
+    field_definitions:
+      status:
+        allowed_values: ["draft", "review", "approved"]
+    section_definitions:
+      required:
+        context: { heading: "## Context", section_id: "context" }
+        architectural_decisions: { heading: "## Architectural Decisions", section_id: "architectural_decisions" }
+      optional:
+        technology_stack: { heading: "## Technology Stack", section_id: "technology_stack" }
+        patterns: { heading: "## Patterns Applied", section_id: "patterns" }
+        project_structure: { heading: "## Project Structure", section_id: "project_structure" }
+        validation: { heading: "## Validation", section_id: "validation" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-create-architecture:
+        may_rewrite_entire_artifact: true
+
+  epics_and_stories:
+    contract_version: "1.0.0"
+    display_name: "Epics and Stories"
+    phase: "3-solutioning"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/solutioning/epics/{project_name}/epics.md"
+      legacy_compatible:
+        - "_bmad-output/solutioning-artifacts/epics/{project_name}/epics.md"
+        - "_bmad-output/planning-artifacts/epics-and-stories-{project_name}.md"
+        - "_bmad-output/planning-artifacts/epics-and-stories.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/epics-and-stories.md"
+    field_definitions:
+      status:
+        allowed_values: ["draft", "approved"]
+    section_definitions:
+      required:
+        overview: { heading: "## Overview", section_id: "overview" }
+        requirements_inventory: { heading: "## Requirements Inventory", section_id: "requirements_inventory" }
+        epic_list: { heading: "## Epic List", section_id: "epic_list" }
+      optional:
+        fr_coverage_map: { heading: "## FR Coverage Map", section_id: "fr_coverage_map" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-create-epics-and-stories:
+        may_rewrite_entire_artifact: true
+
+  project_context:
+    contract_version: "1.0.0"
+    display_name: "Project Context"
+    phase: "3-solutioning"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/solutioning/{project_name}/project-context.md"
+      legacy_compatible:
+        - "_bmad-output/solutioning-artifacts/{project_name}/project-context.md"
+        - "_bmad-output/planning-artifacts/project-context.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/project-context.md"
+    field_definitions: {}
+    section_definitions:
+      required:
+        critical_rules: { heading: "## Critical Implementation Rules", section_id: "critical_rules" }
+      optional:
+        technology_stack: { heading: "## Technology Stack & Versions", section_id: "technology_stack" }
+        project_structure: { heading: "## Project Structure", section_id: "project_structure" }
+        conventions: { heading: "## Conventions & Patterns", section_id: "conventions" }
+        agent_record: { heading: "## Agent Record", section_id: "agent_record" }
+    workflow_permissions:
+      bmad-generate-project-context:
+        may_rewrite_entire_artifact: true
+
+  # ---------------------------------------------------------------------------
+  # Phase 4 — Implementation (already defined above)
+  # ---------------------------------------------------------------------------
+
+  story:
+    contract_version: "1.0.0"
+    display_name: "Story File"
+    phase: "4-implementation"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/stories/{story_key}.md"
+      legacy_compatible:
+        - "_bmad-output/implementation-artifacts/{story_key}.md"
+        - "implementation-artifacts/{story_key}.md"
+        - "_bmad-output/implementation-artifacts/stories/{story_key}.md"
+        - "_bmad-output/implementation-artifacts/stories/{story_key_legacy}.md"
+        - "_bmad-output/implementation-artifacts/stories/story-{story_key_short}{story_suffix}.md"
+        - "implementation-artifacts/stories/{story_key}.md"
+        - "implementation-artifacts/stories/{story_key_legacy}.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/story.md"
+    field_definitions:
+      status:
+        allowed_values: ["backlog", "ready-for-dev", "in-progress", "review", "done", "blocked"]
+    section_definitions:
+      required:
+        story: { heading: "## Story", section_id: "story" }
+        acceptance_criteria: { heading: "## Acceptance Criteria", section_id: "acceptance_criteria" }
+        tasks_subtasks: { heading: "## Tasks / Subtasks", section_id: "tasks_subtasks" }
+        dev_notes: { heading: "## Dev Notes", section_id: "dev_notes" }
+        dev_agent_record: { heading: "## Dev Agent Record", section_id: "dev_agent_record" }
+        review_findings: { heading: "## Review Findings", section_id: "review_findings" }
+        qa_findings: { heading: "## QA Findings", section_id: "qa_findings" }
+        evidence_verification: { heading: "## Evidence / Verification", section_id: "evidence_verification" }
+    workflow_permissions:
+      create-story:
+        may_rewrite_entire_artifact: true
+      dev-story:
+        may_rewrite_entire_artifact: false
+      code-review:
+        may_rewrite_entire_artifact: false
+      qa-gate:
+        may_rewrite_entire_artifact: false
+      correct-course:
+        may_rewrite_entire_artifact: false
+
+  sprint_status:
+    contract_version: "1.0.0"
+    display_name: "Sprint Status"
+    phase: "4-implementation"
+    format: "yaml"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/state/sprint-status.yaml"
+      legacy_compatible:
+        - "_bmad-output/implementation-artifacts/sprint-status.yaml"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/sprint-status.yaml"
+    top_level_keys:
+      required:
+        - "generated"
+        - "project"
+        - "project_key"
+        - "tracking_system"
+        - "story_location"
+        - "development_status"
+
+  review_record:
+    contract_version: "1.0.0"
+    display_name: "Review Record"
+    phase: "review"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/reviews/{story_key}/review-record.md"
+      legacy_compatible:
+        - "_bmad-output/review-records/{story_key}/review-record.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/review-record.md"
+    field_definitions:
+      status:
+        allowed_values: ["pass", "fail", "blocked", "needs_revision"]
+      review_type:
+        allowed_values: ["code", "design", "security", "performance", "general"]
+    section_definitions:
+      required:
+        review_summary: { heading: "## Review Summary", section_id: "review_summary" }
+        findings: { heading: "## Findings", section_id: "findings" }
+      optional:
+        recommendations: { heading: "## Recommendations", section_id: "recommendations" }
+        follow_up: { heading: "## Follow-Up", section_id: "follow_up" }
+        review_agent_record: { heading: "## Review Agent Record", section_id: "review_agent_record" }
+    workflow_permissions:
+      code-review:
+        may_rewrite_entire_artifact: true
+      correct-course:
+        may_rewrite_entire_artifact: false
+
+  qa_record:
+    contract_version: "1.0.0"
+    display_name: "QA Record"
+    phase: "qa"
+    format: "markdown"
+    path_resolution:
+      preferred:
+        - "_bmad/artifacts/qa/{story_key}/qa-record.md"
+      legacy_compatible:
+        - "_bmad-output/qa-records/{story_key}/qa-record.md"
+    source_templates:
+      primary:
+        kind: "file"
+        path: "templates/qa-record.md"
+    field_definitions:
+      status:
+        allowed_values: ["pass", "fail", "blocked", "needs_verification", "not_run"]
+      qa_type:
+        allowed_values: ["unit", "integration", "functional", "regression", "manual", "automated", "end_to_end"]
+    section_definitions:
+      required:
+        qa_summary: { heading: "## QA Summary", section_id: "qa_summary" }
+        test_results: { heading: "## Test Results", section_id: "test_results" }
+      optional:
+        issues_found: { heading: "## Issues Found", section_id: "issues_found" }
+        notes: { heading: "## Notes", section_id: "notes" }
+        qa_agent_record: { heading: "## QA Agent Record", section_id: "qa_agent_record" }
+    workflow_permissions:
+      qa-gate:
+        may_rewrite_entire_artifact: true
+      correct-course:
+        may_rewrite_entire_artifact: false

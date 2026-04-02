@@ -1,0 +1,10 @@
+# Sprint Status
+
+generated: {{generated_date}}
+project: {{project_name}}
+project_key: {{project_key}}
+tracking_system: {{tracking_system|default("file-system")}}
+story_location: "{{story_location|default("_bmad/artifacts/stories")}}"
+
+development_status:
+  {{story_key|default("epic-1")}}: {{status|default("backlog")}}

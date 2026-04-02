@@ -1,0 +1,17 @@
+{
+  "project_name": "<project-slug>",
+  "project_root": "/home/reagulus/projects/<project-slug>",
+  "method": "bmad-hermes",
+  "persona": "Alice",
+  "active_workflow": null,
+  "workflow_status": "idle",
+  "current_epic": null,
+  "current_story": null,
+  "current_sprint": null,
+  "last_artifacts": [],
+  "last_review_summary": null,
+  "last_evidence_path": null,
+  "next_recommended_workflows": [],
+  "blockers": [],
+  "updated_at": "<UTC-ISO-8601>"
+}

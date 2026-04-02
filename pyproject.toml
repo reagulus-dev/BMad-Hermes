@@ -1,0 +1,22 @@
+[project]
+name = "bmad-workflow-plugin"
+version = "0.1.0"
+description = "Alice/BMad workflow plugin for Hermes"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.26.0",
+    "pyyaml>=6.0.3",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bmad_workflow_plugin*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
