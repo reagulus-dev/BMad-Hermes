@@ -244,5 +244,4 @@ Expected baseline: `100/100` passing.
 
 ## See also
 
-- `CONTINUE-HERE.md` — session continuation state and verified next steps
 - [BMad Method](https://github.com/bmad-code-org/BMAD-METHOD) — upstream workflow method this plugin implements
