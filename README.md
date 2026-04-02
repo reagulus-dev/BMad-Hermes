@@ -197,7 +197,7 @@ tests/              full test suite (100 tests)
 
 The plugin recognizes both layout styles produced by real BMad exports:
 
-- `_bmad/core/config.yaml` (canonical Alice layout)
+- `_bmad/core/config.yaml` (canonical BMad layout)
 - `_bmad/config.yaml` (real exported BMad layout)
 
 Config fields (`project_name`, `output_folder`, `user_name`, `communication_language`, `document_output_language`, `user_skill_level`) are surfaced under `normalized_state.bmad_config` after a `bmad_get_state` call.
@@ -215,7 +215,7 @@ Path resolution honors configurable `output_folder` so artifacts under custom ro
 | `missing` | No `_bmad/` state or config found |
 | `legacy_only` | Legacy BMad camelCase state or config-only export |
 | `partially_normalized` | Mix of legacy and normalized fields (post-migration) |
-| `normalized_ready` | Fully normalized Alice live state |
+| `normalized_ready` | Fully normalized BMad live state |
 | `normalized_stale` | Normalized but `updated_at` is more than 30 days old |
 
 `bmad_next_workflow` uses the regime as the primary routing gate before inspecting sprint/story status.

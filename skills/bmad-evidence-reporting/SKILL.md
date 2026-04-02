@@ -1,6 +1,6 @@
 ---
 name: bmad-evidence-reporting
-description: Standardize Alice completion reporting with explicit evidence blocks, honest status labels, and project-local evidence artifacts under `_bmad/`.
+description: Standardize BMad completion reporting with explicit evidence blocks, honest status labels, and project-local evidence artifacts under `_bmad/`.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,7 +10,7 @@ metadata:
     related_skills: [bmad-dev-story, bmad-code-review, bmad-state-check]
 ---
 
-# Alice Evidence Reporting
+# BMad Evidence Reporting
 
 ## When to Use
 
@@ -22,7 +22,7 @@ Make completion claims trustworthy, repeatable, and traceable to project-local e
 
 ## Canonical Naming Rule
 
-For Alice-managed live state, use `snake_case` consistently.
+For BMad-managed live state, use `snake_case` consistently.
 
 Preferred state fields to update or reference include:
 - `last_evidence_path`

@@ -58,7 +58,7 @@ def _execute_tool(name: str, payload: dict[str, Any]):
 @mcp.tool()
 def bmad_get_state(project_root: str) -> str:
     """
-    Read and return the normalized Alice/BMad workflow state for a project.
+    Read and return the normalized BMad workflow state for a project.
 
     Returns state_regime (missing/legacy_only/partially_normalized/normalized),
     the raw state from _bmad/state.json (if present), and any legacy indicators.
@@ -102,7 +102,7 @@ def bmad_init_project(
 def bmad_migrate_state(project_root: str) -> str:
     """
     Non-destructively migrate a legacy `_bmad/state.json` (or config-only export)
-    into Alice-compatible normalized live state.
+    into BMad-compatible normalized live state.
     """
     return _to_json(_execute_tool('bmad_migrate_state', {'project_root': project_root}))
 
@@ -241,7 +241,7 @@ def bmad_workflow_help(
     list_all: bool = False,
 ) -> str:
     """
-    Return help text and workflow listings for Alice/BMad workflows.
+    Return help text and workflow listings for BMad workflows.
     """
     return _to_json(_execute_tool('bmad_workflow_help', {
         'workflow_id': workflow_id,

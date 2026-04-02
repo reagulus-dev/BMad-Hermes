@@ -1,1 +1,1 @@
-"""Alice workflow plugin package."""
+"""BMad workflow plugin package."""

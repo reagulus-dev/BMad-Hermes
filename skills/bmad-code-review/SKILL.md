@@ -1,6 +1,6 @@
 ---
 name: bmad-code-review
-description: Perform a structured Alice/BMad code review as a progression gate using repo truth, validation evidence, and explicit pass/fail reasoning.
+description: Perform a structured BMad code review as a progression gate using repo truth, validation evidence, and explicit pass/fail reasoning.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,7 +10,7 @@ metadata:
     related_skills: [bmad-dev-story, bmad-evidence-reporting, bmad-state-check]
 ---
 
-# Alice Code Review
+# BMad Code Review
 
 ## When to Use
 
@@ -22,7 +22,7 @@ Prevent false completion by making review a real progression gate instead of a f
 
 ## Canonical Naming Rule
 
-For Alice-managed live state, use `snake_case` consistently.
+For BMad-managed live state, use `snake_case` consistently.
 
 Preferred field names include:
 - `workflow_status`

@@ -1,6 +1,6 @@
 ---
 name: bmad-state-migration
-description: Audit and non-destructively extend an existing project-local `_bmad/state.json` from legacy BMad usage so Alice/Hermes can use it as a stronger live state source without destroying workflow history.
+description: Audit and non-destructively extend an existing project-local `_bmad/state.json` from legacy BMad usage so BMad/Hermes can use it as a stronger live state source without destroying workflow history.
 version: 2.1.0
 author: Hermes Agent
 license: MIT
@@ -10,22 +10,22 @@ metadata:
     related_skills: [bmad-state-check, bmad-project-init, bmad-evidence-reporting]
 ---
 
-# Alice BMad State Migration
+# BMad State Migration
 
 ## When to Use
 
-Use when a project already has `_bmad/` from prior BMad/OpenClaw/plugin usage, but the existing `state.json` is too weak to serve as a trustworthy live operational state for Alice.
+Use when a project already has `_bmad/` from prior BMad/OpenClaw/plugin usage, but the existing `state.json` is too weak to serve as a trustworthy live operational state for BMad.
 
 Typical signals:
 - `_bmad/state.json` exists and contains meaningful workflow history
 - top-level fields are thin, often limited to phase/workflow/history
 - workflow records have empty or inconsistent output paths
 - docs, artifacts, and repo reality disagree
-- the user explicitly wants Alice/Hermes to adopt the existing project without destroying prior BMad history
+- the user explicitly wants BMad/Hermes to adopt the existing project without destroying prior BMad history
 
 ## Goal
 
-Preserve the legacy BMad ledger while adding normalized Alice-managed live-state fields so current truth, blockers, evidence, and next workflow can be represented explicitly.
+Preserve the legacy BMad ledger while adding normalized BMad-managed live-state fields so current truth, blockers, evidence, and next workflow can be represented explicitly.
 
 If the plugin/tool surface supports it, prefer a mechanical migration tool first, then use this skill to audit the result, interpret trust honestly, and decide the next workflow handoff.
 
@@ -40,7 +40,7 @@ Mark trust honestly.
 
 ## Canonical Naming Rule
 
-For Alice-managed live state, use `snake_case` field names consistently.
+For BMad-managed live state, use `snake_case` field names consistently.
 
 Do not introduce or extend mixed casing such as:
 - `projectName`
@@ -54,7 +54,7 @@ Do not introduce or extend mixed casing such as:
 - `stateCheck`
 
 Preserve legacy field names only as inherited historical data.
-Treat normalized Alice fields as the live operational interface.
+Treat normalized BMad fields as the live operational interface.
 
 ## Inputs to Inspect
 
@@ -117,14 +117,14 @@ Preserve them either:
 
 Do not destroy workflow history.
 
-### Add normalized Alice-managed live-state fields
+### Add normalized BMad-managed live-state fields
 
 Add or normalize to this canonical structure:
 
 ```json
 {
   "schema_version": "2.0",
-  "persona": "Alice",
+  "persona": "BMad",
   "method": "bmad-hermes",
   "project_name": "<name>",
   "project_root": "<absolute-path>",
@@ -182,7 +182,7 @@ Observed implementation pattern that worked well in the plugin:
 - if `_bmad/state.json` exists, create a timestamped sibling backup before writing
 - if `_bmad/state.json` does not exist but `_bmad/config.yaml` or `_bmad/core/config.yaml` does, allow migration to seed a new normalized state file without requiring a backup
 
-## Seeding the Initial Alice State
+## Seeding the Initial BMad State
 
 Seed conservatively.
 
@@ -205,7 +205,7 @@ Observed defaults that worked well for real exported projects:
 
 ## Canonical Artifact Policy Going Forward
 
-For new Alice-managed work:
+For new BMad-managed work:
 - every meaningful workflow should produce or reference an artifact
 - avoid empty output paths when possible
 - if a workflow record must lack an output, record that limitation explicitly in state or a note artifact
@@ -220,7 +220,7 @@ For new Alice-managed work:
   - `state/`
   - `archive/`
 - preserve legacy `_bmad-output/` history during migration
-- normalize new Alice-managed artifacts without deleting old trails unless explicitly asked
+- normalize new BMad-managed artifacts without deleting old trails unless explicitly asked
 
 ## Canonical Docs Upgrade
 
@@ -249,7 +249,7 @@ After writing the migrated state:
 2. confirm the backup exists when a prior `_bmad/state.json` existed
 3. confirm legacy workflow history count is unchanged
 4. confirm legacy keys or equivalent preserved legacy data still exist
-5. confirm normalized Alice fields exist
+5. confirm normalized BMad fields exist
 6. confirm latest artifact paths actually resolve
 7. report the trust level honestly
 8. if a mechanical tool was added, test both direct service/tool behavior and MCP-exposed behavior
@@ -260,7 +260,7 @@ After writing the migrated state:
 Report:
 - backup path
 - whether legacy history was preserved intact
-- which normalized Alice keys were added
+- which normalized BMad keys were added
 - current `state_check.trust_level`
 - current blockers
 - recommended next workflow
@@ -268,7 +268,7 @@ Report:
   - legacy-only
   - partially normalized
   - normalized but stale
-  - normalized and ready for normal Alice operations
+  - normalized and ready for normal BMad operations
 
 ## Pitfalls
 
@@ -276,7 +276,7 @@ Report:
 - Do not claim the legacy state is fully trustworthy if artifacts, docs, and repo reality disagree.
 - Do not infer completion from artifact presence alone.
 - Do not mark runtime-sensitive work complete without runtime evidence.
-- Do not destroy `_bmad-output` just because Alice prefers cleaner routing.
+- Do not destroy `_bmad-output` just because BMad prefers cleaner routing.
 - Do not continue schema drift by mixing camelCase and snake_case in the same live state.
 - Do not treat config-only real exports as `missing` if supported `_bmad/config.yaml` or `_bmad/core/config.yaml` exists; they are migration candidates.
 - Do not auto-resolve ambiguous exported artifacts like `prd.md` plus `prd-v2.md`; keep that ambiguity visible as a blocker/note.

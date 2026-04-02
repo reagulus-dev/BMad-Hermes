@@ -1,6 +1,6 @@
 ---
 name: bmad-artifact-policy
-description: Story-centered artifact policy for Alice/BMad. Prefer appending to the relevant story/review/QA thread instead of creating new standalone markdown files for every small change.
+description: Story-centered artifact policy for BMad. Prefer appending to the relevant story/review/QA thread instead of creating new standalone markdown files for every small change.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,7 +10,7 @@ metadata:
     related_skills: [bmad-dev-story, bmad-code-review, bmad-qa-gate, bmad-evidence-reporting]
 ---
 
-# Alice Artifact Policy
+# BMad Artifact Policy
 
 ## Goal
 
@@ -60,7 +60,7 @@ Prefer these canonical folders under `_bmad/artifacts/`:
 - `state/`
 - `archive/`
 
-Preserve legacy `_bmad-output/` or older project note structures when they already exist, but route new Alice-managed work toward the canonical tree unless the user explicitly asks otherwise.
+Preserve legacy `_bmad-output/` or older project note structures when they already exist, but route new BMad-managed work toward the canonical tree unless the user explicitly asks otherwise.
 
 ## Canonical Story Sections
 

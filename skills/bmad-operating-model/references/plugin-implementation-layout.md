@@ -1,6 +1,6 @@
-# Alice Workflow Plugin: Canonical Implementation Layout
+# BMad Workflow Plugin: Canonical Implementation Layout
 
-This reference captures the canonical file/module implementation layout for the first Alice workflow plugin pass.
+This reference captures the canonical file/module implementation layout for the first BMad workflow plugin pass.
 
 Chosen schema architecture:
 - shared common schema modules

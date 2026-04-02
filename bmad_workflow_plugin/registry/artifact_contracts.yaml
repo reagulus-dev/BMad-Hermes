@@ -1,7 +1,7 @@
 registry_version: "0.3.0"
 registry_id: "bmad_artifact_contracts"
 description: >
-  Schema-ready artifact contract registry for the Alice/BMad Hermes plugin.
+  Schema-ready artifact contract registry for the BMad Hermes plugin.
   Covers all four phases: analysis (1), planning (2), solutioning (3), and
   implementation (4). Each artifact type defines its format, path resolution
   rules, required/optional sections, field constraints, and workflow

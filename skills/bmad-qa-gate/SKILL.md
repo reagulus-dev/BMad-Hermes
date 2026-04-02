@@ -1,6 +1,6 @@
 ---
 name: bmad-qa-gate
-description: Strengthen QA/release gating for Alice. Distinguishes test generation from true founder-review readiness and requires runtime evidence for usability-sensitive app flows.
+description: Strengthen QA/release gating for BMad. Distinguishes test generation from true founder-review readiness and requires runtime evidence for usability-sensitive app flows.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,7 +10,7 @@ metadata:
     related_skills: [bmad-code-review, bmad-evidence-reporting, bmad-artifact-policy, bmad-dev-story]
 ---
 
-# Alice QA Gate
+# BMad QA Gate
 
 ## Goal
 
@@ -18,7 +18,7 @@ Prevent false QA passes and false `ready for founder review` claims.
 
 ## Canonical Naming Rule
 
-For Alice-managed live state, use `snake_case` consistently.
+For BMad-managed live state, use `snake_case` consistently.
 
 Preferred field names include:
 - `workflow_status`
@@ -128,7 +128,7 @@ When manual testing finds bugs after a nominal pass:
 1. treat that as evidence the gate was too weak
 2. route the issue into `bmad-correct-course`, `bmad-dev-story`, or `bmad-code-review` as appropriate
 3. append findings to the relevant story or QA thread
-4. patch the relevant Alice skill if the process gap is reusable
+4. patch the relevant BMad skill if the process gap is reusable
 
 ## YOLO Mode Policy
 

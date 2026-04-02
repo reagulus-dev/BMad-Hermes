@@ -10,7 +10,7 @@ metadata:
     related_skills: [bmad-state-check, bmad-dev-story, bmad-code-review, bmad-qa-gate, bmad-artifact-policy]
 ---
 
-# Alice Correct Course
+# BMad Correct Course
 
 ## When to Use
 
@@ -41,7 +41,7 @@ Then route the work explicitly.
 
 ## Canonical Naming Rule
 
-For Alice-managed live state, use `snake_case` consistently.
+For BMad-managed live state, use `snake_case` consistently.
 
 Preferred fields include:
 - `workflow_status`

@@ -1,6 +1,6 @@
 ---
 name: bmad-dev-story
-description: Execute a development story in a disciplined Alice/BMad manner using explicit state, validation, and evidence instead of vague completion claims.
+description: Execute a development story in a disciplined BMad manner using explicit state, validation, and evidence instead of vague completion claims.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,7 +10,7 @@ metadata:
     related_skills: [bmad-state-check, bmad-code-review, bmad-evidence-reporting]
 ---
 
-# Alice Dev Story
+# BMad Dev Story
 
 ## When to Use
 
@@ -22,7 +22,7 @@ Move a story from intent to validated implementation while preserving truthful s
 
 ## Canonical Naming Rule
 
-For Alice-managed live state, use `snake_case` consistently.
+For BMad-managed live state, use `snake_case` consistently.
 
 Preferred field names include:
 - `active_workflow`
@@ -50,7 +50,7 @@ If these are missing, stop and clarify or run `bmad-state-check` first.
 
 ## Execution Model
 
-Alice is the orchestrator.
+BMad is the orchestrator.
 Use focused execution where appropriate, but keep the story and evidence trail honest.
 
 Prefer this pattern:

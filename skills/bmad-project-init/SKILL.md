@@ -1,6 +1,6 @@
 ---
 name: bmad-project-init
-description: Initialize a project-local `_bmad/` workflow structure inside `<project_root>` for Alice + Hermes BMad operations.
+description: Initialize a project-local `_bmad/` workflow structure inside `<project_root>` for BMad + Hermes BMad operations.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,25 +10,25 @@ metadata:
     related_skills: [bmad-state-check, bmad-dev-story, bmad-evidence-reporting]
 ---
 
-# Alice Project Init
+# BMad Project Init
 
 ## When to Use
 
-Use when a project under `<project_root>` needs the standard Alice/BMad local workflow structure.
+Use when a project under `<project_root>` needs the standard BMad local workflow structure.
 
 Typical triggers:
 - new project with no `_bmad/` directory
-- existing repo needs to be brought under Alice/BMad conventions
+- existing repo needs to be brought under BMad conventions
 - project has code but no explicit local workflow state
-- inherited project needs a normalized Alice state and artifact layout
+- inherited project needs a normalized BMad state and artifact layout
 
 ## Goal
 
-Create a predictable project-local `_bmad/` layout so Alice can use skills, state files, and artifacts consistently without storing cognition in ad-hoc markdown.
+Create a predictable project-local `_bmad/` layout so BMad can use skills, state files, and artifacts consistently without storing cognition in ad-hoc markdown.
 
 ## Canonical Naming Rule
 
-For Alice-managed state, use `snake_case` consistently.
+For BMad-managed state, use `snake_case` consistently.
 
 Preferred field names include:
 - `schema_version`
@@ -48,7 +48,7 @@ Preferred field names include:
 - `next_recommended_workflows`
 - `state_check`
 
-Do not create new Alice state using mixed camelCase names.
+Do not create new BMad state using mixed camelCase names.
 
 ## Standard Layout
 
@@ -81,14 +81,14 @@ If the project already contains legacy BMad or OpenClaw structures such as:
 preserve them unless the user explicitly asks for cleanup or migration.
 
 Do not delete historical workflow evidence during initialization.
-For inherited projects, prefer preserving legacy material and then routing future Alice-managed work into the canonical `_bmad/artifacts/` tree.
+For inherited projects, prefer preserving legacy material and then routing future BMad-managed work into the canonical `_bmad/artifacts/` tree.
 
 ## Steps
 
 1. Confirm the intended target project root and operate there; do not assume a specific parent directory.
 2. Check whether `_bmad/` already exists.
 3. If missing, create the standard directories.
-4. Create `state.json` from the canonical Alice template.
+4. Create `state.json` from the canonical BMad template.
 5. Create `notes.md` with a short header explaining its purpose.
 6. Do not overwrite meaningful existing state or artifacts unless the user explicitly asks.
 7. If the project is new or being structured from scratch, strongly prefer one early setup or dependency story that clusters dependency selection, version pinning, environment prerequisites, and user-input-heavy setup decisions into a single place as much as practical.
@@ -101,7 +101,7 @@ Initialize with this model unless a migrated legacy state already exists:
 ```json
 {
   "schema_version": "2.0",
-  "persona": "Alice",
+  "persona": "BMad",
   "method": "bmad-hermes",
   "project_name": "<repo-slug-or-canonical-project-name>",
   "project_root": "<absolute-repo-path>",
@@ -142,7 +142,7 @@ Initialize with these principles:
 - `project_name` = repo slug or canonical project name
 - `project_root` = absolute repo path
 - `method` = `bmad-hermes`
-- `persona` = `Alice`
+- `persona` = `BMad`
 - `active_workflow` = `null`
 - `workflow_status` = `idle`
 - arrays default to `[]`
@@ -176,7 +176,7 @@ After initialization, verify:
 - Do not store long-term procedural knowledge in project files; that belongs in skills.
 - Do not overwrite existing `_bmad/state.json` blindly; inspect first.
 - Do not scatter dependency and environment prerequisites across many tiny early stories if they predictably require user input; consolidate them into one setup-focused story where reasonable.
-- Do not require symlinked workflow bundles or a literal OpenClaw plugin layout for Alice to function in Hermes.
+- Do not require symlinked workflow bundles or a literal OpenClaw plugin layout for BMad to function in Hermes.
 
 ## Completion Output
 

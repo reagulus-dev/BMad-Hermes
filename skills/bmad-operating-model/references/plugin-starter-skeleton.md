@@ -1,4 +1,4 @@
-# Alice Workflow Plugin: Starter Skeleton
+# BMad Workflow Plugin: Starter Skeleton
 
 This reference provides a concrete starter skeleton for the first plugin pass.
 It is intentionally a scaffold of exact module/class/function names and signatures so implementation can start cleanly without rediscovering architecture.
@@ -353,7 +353,7 @@ Example:
 
 ```python
 # tools/bmad_get_state.py
-class AliceGetStateTool:
+class BmadGetStateTool:
     def __init__(self, state_service) -> None:
         self.state_service = state_service
 

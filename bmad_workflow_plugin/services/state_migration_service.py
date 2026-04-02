@@ -45,7 +45,7 @@ class StateMigrationService:
 
         patch = {
             'schema_version': '2.0',
-            'persona': 'Alice',
+            'persona': 'BMad',
             'method': 'bmad-hermes',
             'project_name': project_name,
             'project_root': str(root),
@@ -135,7 +135,7 @@ class StateMigrationService:
         if not self._state_path_exists(project_root):
             notes.append('Seeded normalized state from legacy BMad config/export layout because _bmad/state.json was missing.')
         else:
-            notes.append('Preserved legacy _bmad/state.json and added normalized Alice-managed live-state fields.')
+            notes.append('Preserved legacy _bmad/state.json and added normalized BMad-managed live-state fields.')
 
         if not any(path.endswith('sprint-status.yaml') for path in last_artifacts):
             notes.append('No sprint-status artifact resolved during migration; post-migration state-check should confirm execution focus.')
@@ -186,9 +186,9 @@ class StateMigrationService:
     @staticmethod
     def _review_summary(raw_state: dict, current_story: str | None, had_state_file: bool) -> str:
         if had_state_file:
-            prefix = 'Migrated legacy BMad state into Alice-compatible live state.'
+            prefix = 'Migrated legacy BMad state into BMad-compatible live state.'
         else:
-            prefix = 'Created Alice-compatible live state from legacy BMad config/export layout.'
+            prefix = 'Created BMad-compatible live state from legacy BMad config/export layout.'
         if current_story:
             return f'{prefix} Current inferred story: {current_story}.'
         return prefix

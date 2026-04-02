@@ -63,7 +63,7 @@ class InitService:
         else:
             state_payload = {
                 'schema_version': '2.0',
-                'persona': 'Alice',
+                'persona': 'BMad',
                 'method': 'bmad-hermes',
                 'project_name': canonical_project_name,
                 'project_root': str(root),

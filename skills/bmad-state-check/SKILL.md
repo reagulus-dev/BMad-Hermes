@@ -1,6 +1,6 @@
 ---
 name: bmad-state-check
-description: Inspect project-local `_bmad/` truth before work and recommend the next valid Alice/BMad workflow.
+description: Inspect project-local `_bmad/` truth before work and recommend the next valid BMad workflow.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,7 +10,7 @@ metadata:
     related_skills: [bmad-project-init, bmad-dev-story, bmad-code-review]
 ---
 
-# Alice State Check
+# BMad State Check
 
 ## When to Use
 
@@ -18,11 +18,11 @@ Use before any major workflow, especially before planning, implementation, revie
 
 ## Goal
 
-Ground Alice in project truth instead of assumptions.
+Ground BMad in project truth instead of assumptions.
 
 ## Canonical Naming Rule
 
-When reading or reporting Alice live state, prefer normalized `snake_case` field names such as:
+When reading or reporting BMad live state, prefer normalized `snake_case` field names such as:
 - `active_workflow`
 - `workflow_status`
 - `current_epic`
@@ -44,7 +44,7 @@ Primary sources, in order:
 2. recent artifacts in `_bmad/artifacts/`
 3. `_bmad/notes.md` if relevant
 4. current repo, build, and test reality when needed
-5. preserved legacy material such as `_bmad-output/` when the project predates normalized Alice structure
+5. preserved legacy material such as `_bmad-output/` when the project predates normalized BMad structure
 6. `session_search` if the user references past work not visible in files
 
 ## State Check Procedure
@@ -55,7 +55,7 @@ Primary sources, in order:
 4. Determine which state regime applies:
    - missing state
    - legacy-only state
-   - partially normalized Alice state
+   - partially normalized BMad state
    - normalized but stale state
    - normalized and reasonably trustworthy state
 5. Extract, when present:
@@ -80,8 +80,8 @@ Primary sources, in order:
 ## Legacy Handling Rules
 
 - If `_bmad/state.json` is missing, recommend `bmad-project-init`.
-- If only legacy BMad fields exist, report `legacy state detected; normalized Alice live-state missing or incomplete`.
-- If normalized Alice fields exist but contradict repo or artifact reality, report `state present but reality requires refresh`.
+- If only legacy BMad fields exist, report `legacy state detected; normalized BMad live-state missing or incomplete`.
+- If normalized BMad fields exist but contradict repo or artifact reality, report `state present but reality requires refresh`.
 - If recent artifacts contradict state, say so explicitly.
 - If implementation exists without review or evidence, do not call it complete.
 - If `workflow_status` is `blocked`, do not pretend progress is available.
@@ -129,4 +129,4 @@ For trust, use:
 
 ## Completion Standard
 
-A good state check gives Alice a reality-based starting point, an honest trust level, and a justified next move.
+A good state check gives BMad a reality-based starting point, an honest trust level, and a justified next move.

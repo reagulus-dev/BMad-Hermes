@@ -1,6 +1,6 @@
 ---
 name: bmad-operating-model
-description: Canonical operating model for Alice/BMad on Hermes — defines the normalized state schema, artifact tree, workflow lifecycle, gate order, and the split between policy skills and mechanical tools.
+description: Canonical operating model for BMad on Hermes — defines the normalized state schema, artifact tree, workflow lifecycle, gate order, and the split between policy skills and mechanical tools.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -10,11 +10,11 @@ metadata:
     related_skills: [bmad-state-check, bmad-dev-story, bmad-code-review, bmad-evidence-reporting, bmad-qa-gate, bmad-artifact-policy, bmad-correct-course, bmad-project-init, bmad-state-migration]
 ---
 
-# Alice Operating Model
+# BMad Operating Model
 
 ## Purpose
 
-This skill is the canonical operating model for Alice/BMad on Hermes.
+This skill is the canonical operating model for BMad on Hermes.
 
 Use it to understand or enforce:
 - the normalized `_bmad/state.json` schema
@@ -25,8 +25,8 @@ Use it to understand or enforce:
 
 ## Core Philosophy
 
-Alice is allowed to work autonomously.
-Alice is not allowed to outrun evidence.
+BMad is allowed to work autonomously.
+BMad is not allowed to outrun evidence.
 
 Implementation is not completion.
 Passing tests is not QA signoff.
@@ -37,7 +37,7 @@ The system exists to make project truth explicit.
 
 ## Canonical Naming Rule
 
-For Alice-managed live state, use `snake_case` consistently.
+For BMad-managed live state, use `snake_case` consistently.
 
 Preferred keys include:
 - `schema_version`
@@ -61,8 +61,8 @@ Preferred keys include:
 - `state_check`
 - `legacy_bmad`
 
-Do not create new Alice live-state fields in camelCase.
-Legacy BMad camelCase fields may be preserved for historical compatibility, but normalized Alice fields are the live operational interface.
+Do not create new BMad live-state fields in camelCase.
+Legacy BMad camelCase fields may be preserved for historical compatibility, but normalized BMad fields are the live operational interface.
 
 ## Canonical State Schema
 
@@ -71,7 +71,7 @@ Use this schema as the target live-state model:
 ```json
 {
   "schema_version": "2.0",
-  "persona": "Alice",
+  "persona": "BMad",
   "method": "bmad-hermes",
   "project_name": "<name>",
   "project_root": "<absolute-path>",
@@ -107,7 +107,7 @@ Use this schema as the target live-state model:
 
 ## Canonical Artifact Tree
 
-Route new Alice-managed artifacts here:
+Route new BMad-managed artifacts here:
 
 ```text
 _bmad/
@@ -137,11 +137,11 @@ If the project already contains legacy material such as:
 preserve them unless the user explicitly asks for cleanup.
 
 Use `bmad-state-migration` to normalize inherited state.
-Treat legacy materials as historical evidence, not the preferred destination for new Alice-managed work.
+Treat legacy materials as historical evidence, not the preferred destination for new BMad-managed work.
 
 ## Workflow Lifecycle
 
-The default Alice lifecycle is:
+The default BMad lifecycle is:
 1. `bmad-state-check`
 2. define the target story or fix
 3. create or update todo gates
@@ -271,7 +271,7 @@ Use skills for:
 
 ### Tools
 Mechanical tools should eventually handle repetitive and schema-sensitive operations.
-Examples of future Alice tool responsibilities:
+Examples of future BMad tool responsibilities:
 - initialize `_bmad/`
 - read and validate normalized state
 - migrate legacy BMad state
@@ -292,7 +292,7 @@ Use tools for:
 
 `related_skills` metadata is useful for discoverability, but it is not a sufficient workflow engine.
 
-If Alice is expected to know what comes next in a BMad-style way, plugin or tool support should provide:
+If BMad is expected to know what comes next in a BMad-style way, plugin or tool support should provide:
 - next valid workflow calculation
 - recommended next skill
 - blocked or stale-state detection
@@ -319,7 +319,7 @@ Avoid broad ambient workflow loading or asking the agent to reconstruct structur
 
 Core artifacts are contracts, not suggestions.
 
-For important BMad/Alice artifacts, prefer porting and enforcing upstream BMAD templates and workflow output structures rather than letting agents freeform them.
+For important BMad artifacts, prefer porting and enforcing upstream BMAD templates and workflow output structures rather than letting agents freeform them.
 
 Especially important first-slice artifacts are:
 - story files
@@ -343,4 +343,4 @@ For those artifacts:
 
 ## Completion Standard
 
-Alice is operating correctly when implementation, validation, review, QA language, state, and artifacts all tell the same truthful story.
+BMad is operating correctly when implementation, validation, review, QA language, state, and artifacts all tell the same truthful story.

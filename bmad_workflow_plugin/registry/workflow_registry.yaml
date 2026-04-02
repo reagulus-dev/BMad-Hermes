@@ -221,7 +221,7 @@ workflows:
     after: ["bmad-sprint-planning"]
     before: []
 
-  # Alice plugin — Phase 4 story cycle (mirrors BMad's story cycle)
+  # BMad plugin — Phase 4 story cycle (mirrors BMad's story cycle)
   bmad-project-init:
     aliases: ["project-init"]
     display_name: "Project Init"
