@@ -1,0 +1,21 @@
+# Electron + Vite + pnpm monorepo: renderer import boundary
+
+- Context: Electron renderer (nav-init.js) imported `helixNavigateTo` directly from `@helix/shared` using a deep or ambiguous path.
+- Symptom:
+  - Dev and unit tests might pass.
+  - Electron build or runtime fails because:
+    - Vite/Electron bundle does not tree-shake correctly.
+    - `@helix/shared` main/types fields resolve to a build entry that pulls in Node/main-process modules.
+- Fix:
+  - Create a small public entry in the shared package:
+    - Example: `src/public-nav.ts`
+    - Export only renderer-safe utilities (no Node/main-only imports).
+  - Update renderer to import from that public entry:
+    - Example: `from '@helix/shared/public-nav'`
+  - Adjust electron-builder and renderer configuration so that aliasing and build resolution use that public entry.
+  - Update tests that mock the old import path to match the new one.
+- When to apply:
+  - Any Electron renderer story that:
+    - Imports from a workspace package,
+    - Passes in dev but fails in build/runtime,
+    - Or risks pulling heavy Node/main modules into the renderer bundle.

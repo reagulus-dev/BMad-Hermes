@@ -24,7 +24,7 @@ Typical triggers:
 
 ## Goal
 
-Create a predictable project-local `_bmad/` layout so BMad can use skills, state files, and artifacts consistently without storing cognition in ad-hoc markdown.
+Create a predictable project-local `_bmad/` layout so BMad workflows can use skills, state files, and artifacts consistently without storing cognition in ad-hoc markdown.
 
 ## Canonical Naming Rule
 
@@ -59,6 +59,7 @@ _bmad/
   state.json
   notes.md
   artifacts/
+    planning/
     stories/
     reviews/
     qa/
@@ -69,7 +70,15 @@ _bmad/
     state/
     archive/
   templates/
+docs/
+  source/          # optional: uploaded/source docs and extracted text used to seed planning
 ```
+
+When project initialization is driven by an uploaded source document, preserve traceability by copying the original into `docs/source/`, writing extracted text/metadata next to it, and referencing those paths from generated planning artifacts and `_bmad/state.json`.
+
+## Source-Document-Seeded Projects
+
+For uploaded/spec-driven new projects, also consult `references/source-document-seeded-projects.md` for the source preservation, extraction, draft-artifact, state update, and continuation-doc pattern.
 
 ## Legacy Compatibility Rule
 
@@ -92,7 +101,9 @@ For inherited projects, prefer preserving legacy material and then routing futur
 5. Create `notes.md` with a short header explaining its purpose.
 6. Do not overwrite meaningful existing state or artifacts unless the user explicitly asks.
 7. If the project is new or being structured from scratch, strongly prefer one early setup or dependency story that clusters dependency selection, version pinning, environment prerequisites, and user-input-heavy setup decisions into a single place as much as practical.
-8. Report the initialized paths and any pre-existing files that were preserved.
+8. Do not let project initialization masquerade as product planning. If only seed context exists, explicitly report that PRD, UX/UI design, architecture, and canonical epics/stories are not yet created, and route to the appropriate planning workflows before implementation unless the user explicitly chooses a spike/prototype exception.
+9. If initialization is seeded from an uploaded/source document, copy the source into `docs/source/`, extract text/metadata where possible, and record those source paths in `last_artifacts` or state notes.
+10. Report the initialized paths and any pre-existing files that were preserved.
 
 ## Canonical `state.json` Template
 

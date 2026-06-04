@@ -1,6 +1,6 @@
 ---
 name: bmad-state-migration
-description: Audit and non-destructively extend an existing project-local `_bmad/state.json` from legacy BMad usage so BMad/Hermes can use it as a stronger live state source without destroying workflow history.
+description: Audit and non-destructively extend an existing project-local `_bmad/state.json` from legacy BMad usage so Alice/Hermes can use it as a stronger live state source without destroying workflow history.
 version: 2.1.0
 author: Hermes Agent
 license: MIT
@@ -21,7 +21,7 @@ Typical signals:
 - top-level fields are thin, often limited to phase/workflow/history
 - workflow records have empty or inconsistent output paths
 - docs, artifacts, and repo reality disagree
-- the user explicitly wants BMad/Hermes to adopt the existing project without destroying prior BMad history
+- the user explicitly wants Alice/Hermes to adopt the existing project without destroying prior BMad history
 
 ## Goal
 
@@ -182,7 +182,7 @@ Observed implementation pattern that worked well in the plugin:
 - if `_bmad/state.json` exists, create a timestamped sibling backup before writing
 - if `_bmad/state.json` does not exist but `_bmad/config.yaml` or `_bmad/core/config.yaml` does, allow migration to seed a new normalized state file without requiring a backup
 
-## Seeding the Initial BMad State
+## Seeding the Initial Alice State
 
 Seed conservatively.
 

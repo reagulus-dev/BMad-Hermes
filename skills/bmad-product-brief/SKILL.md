@@ -66,6 +66,8 @@ Best upstream inputs include:
 - Keep it strategic and legible.
 - Preserve extra details in notes only if they materially help downstream planning.
 - Prefer the artifact contract over ad-hoc formatting.
+- Do not mirror the product brief into multiple locations. Keep exactly one canonical file and reference it from state/status docs.
+- Once PRD, UX, and architecture artifacts exist, demote the product brief to a compact founder-intent note instead of maintaining it as a second active requirements source.
 
 ## Completion Standard
 

@@ -339,6 +339,44 @@ d = json.loads(bmad_get_state(tempfile.mkdtemp()))
 assert d['data']['state_regime'] == 'missing'
 ```
 
+## Story Contract vs Template Alignment Rule
+
+When reviewing or extending story contracts, always verify that the story template
+includes every section the contract declares — required or optional.
+
+A mismatch between contract and template is a silent behavior trap:
+- the contract may declare `review_findings`, `qa_findings`, `evidence_verification`
+- if the template omits them, agents creating stories have no section to append to
+- agents then create standalone review/QA files instead, causing artifact sprawl
+- real exported projects reflect this: code-review files proliferate because the template
+  never gave agents a canonical append target inside the story
+
+Fix: move those sections from optional to required in the contract AND add them to the
+template. Both must be updated together or the gap just shifts.
+
+Audit trigger: if you see many standalone `code-review-*.md` or `qa-report-*.md` files
+in real project exports, check whether the story template is missing those sections.
+Do not try to detect these stray files in migration heuristics — fix the source template
+instead so future stories are scaffolded correctly.
+
+## Service-Level Lazification Checklist
+
+Before lazifying internals of a service, ask:
+1. Does every code path through the service use all its constructed components?
+   If yes, lazy construction buys nothing — the components will always be instantiated.
+2. Are the sub-components truly expensive to construct (I/O, registry loads, heavy parsers)?
+   Zero-arg stateless helper classes (StateReader, StateNormalizer, SprintStatusParser, etc.)
+   cost effectively nothing to construct. Do not lazify them.
+3. Does the plugin container already provide outer lazy loading?
+   If the service itself is a lazy property on the plugin, inner lazy construction is
+   redundant — the service is only created when a tool that needs it is invoked.
+
+Apply lazy-loading at the level where it actually reduces work per request:
+- plugin container (service properties) — yes, always lazy
+- ArtifactService parser/validator/mutator dispatch — yes, many artifact types, only one used per call
+- WorkflowRouter state/path/parser sub-components — yes, missing-state fast-path skips them
+- Individual service sub-components that are always used — no, leave eager
+
 ## ArtifactService Lazy-Loading Pattern
 
 When `ArtifactService` grows across many artifact types, do not instantiate every parser,

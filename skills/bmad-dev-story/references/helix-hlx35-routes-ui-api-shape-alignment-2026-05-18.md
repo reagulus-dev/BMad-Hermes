@@ -1,0 +1,27 @@
+# HLX-3.5: Routes UI and API Shape Alignment (2026-05-18)
+
+- Context:
+  - HLX-3.5 (route/proxy group config + health metadata) had DB, service, IPC, and preload implemented.
+  - Renderer (nav-init.js) was using incorrect API shapes and field names:
+    - createRouteGroup called helixRoutes.create(name, description) instead of create({ name, type, role, config }).
+    - deleteRouteGroup called helixRoutes.remove(id) instead of delete(id).
+    - routeDetail function was structurally broken (stray comments, wrong control flow).
+    - Table columns referenced non-existent fields (description, routeCount, lastCheckAt, health).
+    - Health check button was disabled and not wired.
+- Resolution:
+  - Fixed nav-init.js:
+    - Updated table columns to match NetworkConfigRow fields.
+    - Corrected routeDetail to show real fields (type, role, status, latency, last_failure_at, last_tested_at).
+    - Aligned createRouteGroup, editRouteGroup, deleteRouteGroup with the real helixRoutes API.
+    - Wired runRouteHealthCheck to helixRoutes.runHealthCheck(id).
+  - Added focused renderer tests for:
+    - Routes table columns.
+    - routeDetail panel fields.
+    - create/edit/delete/runHealthCheck wiring.
+- Lesson:
+  - When continuing a story with partial work:
+    - Treat renderer code as untrusted until verified against:
+      - Preload types/interfaces.
+      - Main IPC handlers.
+      - Service and DB shapes.
+    - Always run full workspace tests after alignment fixes.

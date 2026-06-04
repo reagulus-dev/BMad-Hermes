@@ -353,7 +353,7 @@ Example:
 
 ```python
 # tools/bmad_get_state.py
-class BmadGetStateTool:
+class AliceGetStateTool:
     def __init__(self, state_service) -> None:
         self.state_service = state_service
 

@@ -43,6 +43,10 @@ Preferred mechanics:
 - `ux_design` if UX matters
 - any existing project context or technical constraints
 
+## Reference Patterns
+
+- `references/compact-definitive-stack-planning.md` — compact planning pass for newly initialized projects before the first scaffold story, including making one definitive stack decision and recording it across PRD, architecture, BMad state, continuation docs, and the scaffold story.
+
 ## Execution Pattern
 
 1. Confirm the solutioning scope and technical decision surface.
@@ -55,14 +59,20 @@ Preferred mechanics:
    - patterns, constraints, deployment/runtime concerns
    - implementation consistency requirements
 5. Capture decisions explicitly in the artifact.
-6. Validate the architecture artifact.
-7. Route forward to `bmad-create-epics-and-stories`.
+6. **For migration/refactoring work** (e.g., schema changes, precision upgrades, renames):
+   - Include a **complete file inventory** listing every file that must change
+   - Provide **grep audit commands** the implementer can run to verify nothing was missed
+   - Specify the **backfill strategy** for existing data
+   - Document **rollback plan** with noted risks
+7. Validate the architecture artifact.
+8. Route forward to `bmad-create-epics-and-stories`.
 
 ## Guardrails
 
 - Do not over-specify implementation tasks that belong in stories.
 - Do not leave key trade-offs implicit.
 - Keep the document useful for downstream decomposition and coding agents.
+- When the user asks to avoid drift or requests a single best stack, make and record one definitive architecture decision rather than presenting multiple equivalent options. Put the chosen stack and explicit non-goals in the architecture artifact and mirror the decision into downstream state/continuation artifacts that implementation agents will read.
 
 ## Completion Standard
 

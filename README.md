@@ -83,7 +83,7 @@ uv sync --group dev
 .venv/bin/pytest tests/ -v
 ```
 
-Expected: `100/100` tests passing.
+Expected: `102/102` tests passing.
 
 ### 4. Smoke-test the MCP server
 
@@ -162,8 +162,8 @@ bmad_workflow_plugin/
   templates/        canonical artifact templates (story, PRD, architecture, etc.)
   mcp_server.py     FastMCP stdio server entrypoint
 
-skills/             bundled bmad-* Hermes skills (copy to ~/.hermes/skills/software-development/)
-tests/              full test suite (100 tests)
+skills/             bundled bmad-* Hermes skills (47 active BMad skills; copy to ~/.hermes/skills/software-development/)
+tests/              full test suite (102 tests)
 ```
 
 ---
@@ -229,7 +229,7 @@ cd BMad-Hermes
 .venv/bin/pytest tests/ -v
 ```
 
-Expected baseline: `100/100` passing.
+Expected baseline: `102/102` passing.
 
 ---
 

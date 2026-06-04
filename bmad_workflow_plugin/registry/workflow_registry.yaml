@@ -520,3 +520,75 @@ workflows:
     outputs: ["distillate markdown file(s)"]
     after: []
     before: []
+
+  bmad-autopilot:
+    display_name: "BMad Autopilot"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-autopilot"
+    required: false
+    description: "Run a BMad-managed project forward autonomously through the next valid workflow gate while preserving implementation/review separation and evidence-backed updates."
+    outputs: ["workflow gate result", "evidence-backed state updates"]
+    after: ["bmad-state-check"]
+    before: []
+
+  bmad-feature-retirement-clean-removal:
+    display_name: "Feature Retirement / Clean Removal"
+    phase: "anytime"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-feature-retirement-clean-removal"
+    required: false
+    description: "Cleanly remove an abandoned product feature from a live app with entry-point inventory, code deletion, copy/routes cleanup, stale-test removal, and verification."
+    outputs: ["retirement implementation", "validation evidence"]
+    after: ["bmad-state-check"]
+    before: ["bmad-code-review", "bmad-qa-gate"]
+
+  bmad-react-native-ui-foundation-rollout:
+    display_name: "React Native UI Foundation Rollout"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-react-native-ui-foundation-rollout"
+    required: false
+    description: "Roll out a safe-area, keyboard, and modal UI foundation in a brownfield React Native / Expo app before visual redesign work."
+    outputs: ["ui foundation changes", "device/runtime evidence"]
+    after: ["bmad-state-check"]
+    before: ["bmad-code-review", "bmad-qa-gate"]
+
+  bmad-stowsy-date-only-and-expenses-wiring:
+    display_name: "Stowsy Date-Only and Expenses Wiring"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-stowsy-date-only-and-expenses-wiring"
+    required: false
+    description: "Fix Stowsy regressions where item-entry dates drift backward by a day and Expenses buckets spend by created timestamps instead of purchase dates."
+    outputs: ["Stowsy implementation correction", "focused validation evidence"]
+    after: ["bmad-state-check"]
+    before: ["bmad-code-review", "bmad-qa-gate"]
+
+  bmad-stowsy-household-model:
+    display_name: "Stowsy Household Model"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-stowsy-household-model"
+    required: false
+    description: "Apply the Stowsy single-household product model with explicit household creation on signup and was_kicked_at kick detection."
+    outputs: ["Stowsy household-model implementation", "focused validation evidence"]
+    after: ["bmad-state-check"]
+    before: ["bmad-code-review", "bmad-qa-gate"]
+
+  bmad-workflow-plugin-implementation:
+    display_name: "BMad Workflow Plugin Implementation"
+    phase: "4-implementation"
+    status_triggers: []
+    allowed_from: []
+    recommended_skill: "bmad-workflow-plugin-implementation"
+    required: false
+    description: "Extend the Hermes-native BMad workflow plugin using registry-driven artifact contracts, per-tool schemas, FastMCP integration, and verified lazy-loading boundaries."
+    outputs: ["plugin implementation", "MCP/tool validation evidence"]
+    after: ["bmad-state-check"]
+    before: ["bmad-code-review", "bmad-qa-gate"]

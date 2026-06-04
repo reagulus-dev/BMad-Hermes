@@ -1,6 +1,6 @@
 ---
 name: bmad-evidence-reporting
-description: Standardize BMad completion reporting with explicit evidence blocks, honest status labels, and project-local evidence artifacts under `_bmad/`.
+description: Standardize Alice completion reporting with explicit evidence blocks, honest status labels, and project-local evidence artifacts under `_bmad/`.
 version: 2.0.0
 author: Hermes Agent
 license: MIT
@@ -86,6 +86,11 @@ When a standalone evidence artifact is warranted, save it under:
 Suggested naming:
 - `YYYY-MM-DD-short-topic.md`
 
+For runtime QA with multiple screenshots/XML/log files, prefer a compact project-local evidence directory:
+- `_bmad/artifacts/evidence/<platform-or-flow>-<run_id>/`
+
+Include only non-secret metadata. For mobile runs, a strong bundle is screenshots, UI XML/page source, filtered log output, full log when useful, APK/build identity, and a story-linked summary of what each artifact proves.
+
 ## QA and Review Alignment
 
 Evidence reporting should support later review and QA gating.
@@ -105,6 +110,16 @@ After producing meaningful evidence, ensure `_bmad/state.json` reflects reality:
 - `workflow_status` should not be upgraded beyond what the evidence truly supports
 
 Do not imply completion through state changes if runtime evidence is still missing.
+
+## Cut-Off / Compaction Finalization Evidence
+
+When resuming after a cut-off where the handoff says implementation and validation were already done, treat final reporting as an evidence reconciliation task, not a pure summary task:
+- Re-run the validation commands before finalizing if practical; pasted prior logs are helpful context but not fresh evidence.
+- Record the newest observed timestamp/result in the story or evidence anchor, especially for migrations/builds.
+- Reconcile story acceptance checkboxes at both parent and child levels; parent items left unchecked make a corrected story read incomplete even when every child criterion passed.
+- Parse or otherwise validate machine-readable BMad artifacts after edits (`_bmad/state.json`, `_bmad/sprint-status.yaml`).
+- Keep status and next workflow aligned across story, sprint status, and state; for a dev-story correction that has not been reviewed, use `implemented_not_reviewed` and route to fresh `bmad-code-review`.
+- Include a concise worktree note in the final report when there are broad pre-existing modified/untracked files, so the user knows no commit/cleanup was implied.
 
 ## Bad Patterns to Avoid
 

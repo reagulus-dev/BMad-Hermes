@@ -69,6 +69,7 @@ Use any of the following if available:
 - Do not write vague requirements that cannot be checked later.
 - Prefer measurable success language where possible.
 - Preserve contract structure so validation and downstream solutioning remain deterministic.
+- For a compact pre-scaffold planning pass, the PRD may include a concise "definitive stack decision" section when the user explicitly wants to avoid implementation drift. Keep it high-level and mirror the detailed technical rationale in the architecture artifact rather than letting the PRD become the architecture.
 
 ## Completion Standard
 

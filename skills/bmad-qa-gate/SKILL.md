@@ -48,6 +48,16 @@ Use before saying any of the following:
 
 ## Required Evidence Classes
 
+For Expo/React Native Android release runtime QA, also consult `references/android-release-runtime-qa.md` for the clean release-APK + UIAutomator screenshot/XML + logcat evidence pattern.
+
+For Electron/desktop apps on headless Linux, consult `references/electron-xvfb-runtime-qa.md` for the Xvfb virtual display + runner script + computed-styles verification pattern.
+
+For Next.js/Supabase web apps that have passed code review but still need first founder/manual runtime smoke, consult `references/nextjs-lan-runtime-qa-cardforge.md` for the local/LAN production-server pattern (`next build`, bind `next start` to `0.0.0.0`, verify loopback + LAN URL, keep PID/logs ignored, and avoid premature Vercel deployment when local QA is sufficient).
+
+For Electron flows backed by local database rows, also consult `references/electron-db-backed-ui-qa.md` for the raw-DB vs repository-helper vs renderer diagnosis pattern and the `psql --tuples-only` delimiter/parsing pitfall.
+
+For Electron DB-backed health/status metadata QA, also consult `references/electron-db-health-timestamp-runtime-qa-2026-05-18.md` for the ISO timestamp `::timestamptz` casting pitfall and the bounded same-gate correction pattern when runtime QA finds a small in-scope blocker.
+
 ### 1. Implementation evidence
 - target story or fix identified
 - changed files known
@@ -62,6 +72,8 @@ For usability-sensitive flows, require real runtime evidence such as:
 - manual testing on the actual build or device
 - end-to-end execution on the actual app path
 - screenshot, video, or log evidence where useful
+
+For Expo/React Native web parity gates, a passing `expo export --platform web` is only build evidence. Browser form verification needs an actual web runtime session that exercises inputs, buttons, confirmations, and visible success/error states. React Native Web can differ from native for dialogs and touchable text nesting, so treat web form paths as their own runtime surface.
 
 Usability-sensitive flows include:
 - auth
@@ -111,6 +123,13 @@ For story-linked work, always append findings to the `## QA Findings` section of
 Do not create a separate QA file for story-scoped work.
 Create a standalone QA artifact under `_bmad/artifacts/qa/` only when findings are cross-story, release-wide, or too large to fit in the story thread.
 
+When a QA pass closes a previously listed gap, reconcile old continuation/status text before final reporting:
+- search story files, `CONTINUE-HERE.md`, current-plan/status docs, and `_bmad/state.json` for stale `pending` / `unverified` phrases tied to the closed gap
+- update old sections as `superseded by later QA findings` instead of erasing useful history
+- keep the remaining unverified surfaces explicit, especially iOS/browser/cross-platform founder-review gaps
+
+See `references/haven-story-2-2-runtime-browser-qa-2026-05-07.md` for a concrete Android + browser QA gate, React Native Web `Alert.alert` correction, and stale-status reconciliation pattern.
+
 ## State Handling
 
 After applying the QA gate, ensure `_bmad/state.json` reflects reality:
@@ -128,7 +147,20 @@ When manual testing finds bugs after a nominal pass:
 1. treat that as evidence the gate was too weak
 2. route the issue into `bmad-correct-course`, `bmad-dev-story`, or `bmad-code-review` as appropriate
 3. append findings to the relevant story or QA thread
-4. patch the relevant BMad skill if the process gap is reusable
+4. patch the relevant Alice skill if the process gap is reusable
+
+## QA-Found Blocker Correction Loop
+
+When a runtime QA gate itself finds a small, clearly in-scope blocker:
+1. record the initial failing runtime evidence instead of hiding it
+2. investigate root cause before fixing; do not guess from symptoms
+3. apply a bounded same-story correction only if the cause and scope are clear
+4. add or update a focused regression test for the runtime failure
+5. re-run the failed runtime path and the broader validation needed for confidence
+6. append both the initial blocker and corrected pass to the story `## QA Findings` section
+7. reconcile `_bmad/state.json`, `_bmad/sprint-status.yaml`, `CONTINUE-HERE.md`, and stale `runtime-unverified` / `QA pending` text
+
+If the blocker is broad, architectural, or outside the story scope, stop the gate as `blocked` and route to `bmad-correct-course` or `bmad-dev-story` instead.
 
 ## YOLO Mode Policy
 

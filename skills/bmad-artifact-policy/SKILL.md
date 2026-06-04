@@ -22,6 +22,16 @@ Default to the existing story as the canonical anchor.
 
 If a bug, fix, review, evidence note, or QA finding maps to an existing story, update or append to that story thread first before creating a new standalone document.
 
+## One Source of Truth Rule
+
+Do **not** create mirrored copies of the same product, PRD, UX, architecture, status, or continuation artifact in multiple folders.
+
+When a project has a canonical documentation area such as `docs/foundry/`, keep planning and solutioning artifacts there and reference those paths from `_bmad/state.json` rather than copying them into `_bmad/artifacts/`.
+
+`_bmad/artifacts/` should hold work-thread artifacts only: stories, cross-story reviews, QA reports, evidence, corrections, release notes, handoffs, state audits, and archives.
+
+If an upstream BMad contract says an artifact exists (for example `prd`, `architecture`, or `ux_design`), satisfy that contract with exactly one canonical file. Prefer links/references over duplicate markdown. If a duplicate already exists, remove it or archive it after confirming which file is canonical.
+
 ## Artifact Anchor Order
 
 Choose the artifact anchor in this order:

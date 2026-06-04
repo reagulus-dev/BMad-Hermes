@@ -48,13 +48,19 @@ If a readiness artifact contract is later added, migrate this workflow to use it
    - PRD ↔ architecture
    - PRD ↔ epics/stories
    - UX ↔ PRD/architecture when relevant
-3. Identify missing requirements coverage, vague stories, architectural mismatches, or unresolved blockers.
-4. Produce an explicit readiness verdict:
+3. **For migration/refactoring work**, additionally verify:
+   - Architecture includes a **complete file inventory** (every file that must change)
+   - Architecture includes **grep audit commands** for completeness verification
+   - Architecture includes **backfill strategy** for existing data
+   - Architecture includes **rollback plan** with noted risks
+   - Stories are ordered to minimize risk (schema → helpers → actions → analytics → tests → QA)
+4. Identify missing requirements coverage, vague stories, architectural mismatches, or unresolved blockers.
+5. Produce an explicit readiness verdict:
    - PASS
    - CONCERNS
    - FAIL / BLOCKED
-5. Record findings in a structured, auditable way.
-6. Recommend the next step:
+6. Record findings in a structured, auditable way.
+7. Recommend the next step:
    - `bmad-sprint-planning` if ready
    - correction of PRD / architecture / epics-and-stories if not
 

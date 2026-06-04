@@ -141,7 +141,7 @@ Treat legacy materials as historical evidence, not the preferred destination for
 
 ## Workflow Lifecycle
 
-The default BMad lifecycle is:
+The default Alice lifecycle is:
 1. `bmad-state-check`
 2. define the target story or fix
 3. create or update todo gates
@@ -239,6 +239,40 @@ Preferred progress labels when evidence is partial:
 
 Do not silently upgrade status beyond what evidence supports.
 
+### Epic- and Story-Level Status Labels (canonical set)
+
+Use these labels for the `status:` field on epic and story entries in
+`_bmad/sprint-status.yaml`. Do not invent synonyms; downstream tools and other
+agents rely on these strings.
+
+**Epic status:**
+- `in_progress` — at least one story in the epic is in a non-terminal state.
+- `completed` — every story in the epic has reached the code-review gate
+  (and only the code-review gate; QA/founder/release readiness is a separate
+  concept recorded on each story).
+- `on_hold` — user explicitly paused the epic mid-flight. The epic is not
+  done; the user asked for a different epic to advance first. Sibling
+  non-completed stories are `deferred`. A `hold_reason:` field is required.
+- `paused` — the epic was once activated, paused mid-flight, and is waiting
+  on a different epic to finish. Symmetric to `on_hold` but indicates prior
+  activation history. A `resume_note:` (not `hold_reason`) is required.
+
+**Story status:**
+- `ready_for_dev` — story artifact exists, dependencies met, no implementation
+  has started.
+- `in_progress` — `bmad-dev-story` is actively working on it.
+- `implemented_not_reviewed` — code is written, tests pass, no review yet.
+- `completed` — passed code review (with or without notes). Do not conflate
+  with QA or founder-review readiness; that is a separate field.
+- `review_blocked` — `bmad-code-review` found a blocker; treat as "fix this
+  story" mode, not "start a new story" mode.
+- `deferred` — sibling of an active epic, paused because a different story
+  must finish first. A `deferral_reason:` and a `blocked_by:` pointer are
+  required.
+- `blocked` — a dependency on a different story is not yet satisfied. Same
+  fields as `deferred`; the distinction is semantic (a deferred story is
+  part of the same epic, a blocked story may be waiting on a different epic).
+
 ## Correct-Course Rule
 
 When implementation, validation, review, QA, or repo reality diverges from the current story or claimed status, route through `bmad-correct-course`.
@@ -271,7 +305,7 @@ Use skills for:
 
 ### Tools
 Mechanical tools should eventually handle repetitive and schema-sensitive operations.
-Examples of future BMad tool responsibilities:
+Examples of future Alice tool responsibilities:
 - initialize `_bmad/`
 - read and validate normalized state
 - migrate legacy BMad state
@@ -319,7 +353,7 @@ Avoid broad ambient workflow loading or asking the agent to reconstruct structur
 
 Core artifacts are contracts, not suggestions.
 
-For important BMad artifacts, prefer porting and enforcing upstream BMAD templates and workflow output structures rather than letting agents freeform them.
+For important BMad/Alice artifacts, prefer porting and enforcing upstream BMAD templates and workflow output structures rather than letting agents freeform them.
 
 Especially important first-slice artifacts are:
 - story files
@@ -340,6 +374,8 @@ For those artifacts:
 - Do not leave `_bmad/state.json` stale after meaningful work.
 - Do not hide blockers inside soft language.
 - Do not create artifact sprawl when a canonical story anchor already exists.
+- Do not treat a review as complete until all related artifacts are updated (state.json, sprint-status.yaml, story artifact, and continuation doc). If you skip this, the next session will not know the review happened and will redo the same work.
+- When review notes (e.g., N1–N3) are addressed, update ALL affected artifacts in a single pass: code, tests, state.json, sprint-status.yaml, story artifact, and CONTINUE-HERE.md. Future sessions must be able to read the resolved state without reconstructing it from history.
 
 ## Completion Standard
 
